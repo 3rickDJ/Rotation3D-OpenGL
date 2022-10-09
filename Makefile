@@ -23,3 +23,7 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 
 clean:
 	-rm -r $(BINDIR)/* $(OBJ)/*
+
+dirs:
+	@echo "Creating Dirs"
+	@mkdir -vp bin/ obj/
