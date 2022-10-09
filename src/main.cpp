@@ -35,8 +35,8 @@ Operaciones3D Op3D;
 
 float Theta=0;
 //Variables para la definicion de objetos
-//float P1[3]={0.0,0.0,0.0};
-//float P2[3]={5.0,5.0,-3.0};
+float P1[3]={0.0,0.0,0.0};
+float P2[3]={5.0,5.0,-3.0};
 float points[5][3]={{0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1}};
 
 
@@ -151,8 +151,11 @@ void RotacionPiramide(float theta, float p1[3], float p2[3])
        glVertex3f(p1[0],p1[1],p1[2]);
        glVertex3f(p2[0],p2[1],p2[2]);
      glEnd();
-    //codigo para la rotacion libre
-    //...
+     glColor3f(1.0,1.0,1.0);
+     //se prepara la matriz de operaciones A
+     Op3D.RotacionLibre(theta, p1, p2);
+     //Se aplica A a cada punto de la piramide
+     Op3D.MatObject(Op3D.A,5,points);
 }
 
 //-------------------------------------------------------------------------
@@ -194,7 +197,8 @@ void display()
     //se rota la piramide Theta grados con respecto al eje de rotacion
     //a una distancia definida por el usuario
     //RotacionPiramide('X',Theta,0,0);
-    RotacionPiramide('Z',Theta,0,0);
+    /* RotacionPiramide('Z',Theta,0,0); */
+    RotacionPiramide(Theta, P1, P2);
     ImprimePiramide();
     glutSwapBuffers();
 }
@@ -226,4 +230,3 @@ int main(int argc, char **argv)
     glutMainLoop();
     return 0;
 }
-

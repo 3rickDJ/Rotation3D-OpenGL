@@ -142,6 +142,81 @@ void Operaciones3D::RotacionParalela(char eje, float theta,
 
 void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
 {
-//...
-}
+// 1. Calcular el vector unitario
+// (a,b,c)
+// ...
+    float vUnit[3];
+    float vNorma=0;
+    for (int i = 0; i <3; i++){
+        vUnit[i]= p2[i]-p1[i];
+        vNorma +=  vUnit[i]*vUnit[i];
+    }
+    vNorma = sqrt(vNorma);
+    for (int i = 0; i <3; i++){
+        vUnit[i] = vUnit[i] / vNorma;
+    }
 
+// 2. Calcular matriz de rotaci'on con respecto a "x" del angulo "beta"
+    /* float Rx[4][4]; */
+    /* float cosine; */
+    /* float sine; */
+    /* LoadIdentity(RxTheta); */
+    /* cosine = std::cos(DegToRad(theta)); */
+    /* cosine = std::cos(DegToRad(theta)); */
+    /* RxTheta[1][1] = cosine; */
+    /* RxTheta[1][2] = -sine; */
+    /* RxTheta[2][1] = sine; */
+    /* RxTheta[2][2] = cosine; */
+// 2.1 d= sqrt(b^2+c^2)
+    float d = sqrt( (vUnit[1]*vUnit[1]) + (vUnit[2]*vUnit[2]) );
+// 2.2 Calcular R_x(alpha)
+    float RxAlpha[4][4];
+    float a ,b , c;
+    a = vUnit[0];
+    b = vUnit[1];
+    c = vUnit[2];
+    LoadIdentity(RxAlpha);
+    RxAlpha[1][1] = c/d;
+    RxAlpha[1][2] = -b/d;
+    RxAlpha[2][1] = b/d;
+    RxAlpha[2][2] = c/d;
+
+// 3. Calcular matriz de rotacion con respecto "y" del angulo "Beta"
+// R_y(beta)
+    float RyBeta[4][4];
+    LoadIdentity(RyBeta);
+    RyBeta[0][0] = d;
+    RyBeta[0][2] = a;
+    RyBeta[2][0] = -a;
+    RyBeta[2][2] = d;
+
+// 4. Calcular matriz de rotacion con el angulo theta con respecto al eje "Z"
+// R_z(theta)
+    rotateZ(DegToRad(theta));
+// 5. Def Matriz R_y^(-1) (Beta)
+    float RyBetaT[4][4];
+    LoadIdentity(RyBetaT);
+    RyBetaT[0][0] = d;
+    RyBetaT[0][2] = -a;
+    RyBetaT[2][0] = a;
+    RyBetaT[2][2] = d;
+// 6. Def matriz R_x^(-1) (alpha)
+    float RxAlphaT[4][4];
+    LoadIdentity(RxAlpha);
+    RxAlphaT[1][1] = c/d;
+    RxAlphaT[1][2] = b/d;
+    RxAlphaT[2][1] = -b/d;
+    RxAlphaT[2][2] = c/d;
+// 7. Calcular la matriz de traslacion inversa T'
+    translate(-p1[0],-p1[1],-p1[2]);
+    // mover a origen
+    // multiplicar rotaciones
+    MultM(RxAlpha,T,A);
+    MultM(RyBeta,A,A);
+    MultM(R,A,A);
+    MultM(RyBetaT,A,A);
+    MultM(RxAlphaT,A,A);
+    // regresar a lugar original
+    translate(p1[0],p1[1],p1[2]);
+    MultM(T,A,A);
+}
