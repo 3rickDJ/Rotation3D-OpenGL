@@ -202,7 +202,7 @@ void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
     RyBetaT[2][2] = d;
 // 6. Def matriz R_x^(-1) (alpha)
     float RxAlphaT[4][4];
-    LoadIdentity(RxAlpha);
+    LoadIdentity(RxAlphaT);
     RxAlphaT[1][1] = c/d;
     RxAlphaT[1][2] = b/d;
     RxAlphaT[2][1] = -b/d;
