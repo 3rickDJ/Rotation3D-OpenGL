@@ -146,12 +146,12 @@ void RotacionPiramide(char ejeXYZ, float theta, float distA, float distB)
 void RotacionPiramide(float theta, float p1[3], float p2[3])
 {
      //se imprime el eje de rotacion
-     glColor3f(1.0,1.0,1.0);
+     glColor3f(0.5,0.4,0.4);
      glBegin(GL_LINES);
-       glVertex3f(p1[0],p1[1],p1[2]);
+       glVertex3f(-1,-1,0.6);
        glVertex3f(p2[0],p2[1],p2[2]);
      glEnd();
-     glColor3f(1.0,1.0,1.0);
+     glColor3f(0.4,0.4,0.4);
      //se prepara la matriz de operaciones A
      Op3D.RotacionLibre(theta, p1, p2);
      //Se aplica A a cada punto de la piramide
@@ -175,10 +175,10 @@ static void keys(unsigned char key, int x, int y)
 {
     switch(key){
                 case 'u':
-                     Theta=1;
+                     Theta=6;
                      break;
                 case 'd':
-                     Theta=-1;
+                     Theta=-6;
                      break;
                 default:
                      Theta = 0;
@@ -190,14 +190,13 @@ static void keys(unsigned char key, int x, int y)
 
 void display()
 {
-    int i;
     glClear(GL_COLOR_BUFFER_BIT);
     drawAxis();
     glColor3f(1.0f,1.0f,1.0f);
     //se rota la piramide Theta grados con respecto al eje de rotacion
     //a una distancia definida por el usuario
     //RotacionPiramide('X',Theta,0,0);
-    /* RotacionPiramide('Z',Theta,0,0); */
+    //RotacionPiramide('Z',Theta,0,0);
     RotacionPiramide(Theta, P1, P2);
     ImprimePiramide();
     glutSwapBuffers();
