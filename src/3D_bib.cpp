@@ -1,3 +1,4 @@
+
 #include "3D_bib.h"
 
 Operaciones3D::Operaciones3D()
@@ -111,22 +112,36 @@ void Operaciones3D::MatObject(float m[][4], int size, float p[][3])
 //X: (distA,distB) es el vector (0,distA,distB)
 //Y: (distA,distB) es el vector (distA,0,distB)
 //Z: (distA,distB) es el vector (distA,distB,0)
-void Operaciones3D::RotacionParalela(char eje, float theta, float distA, float distB)
-{
+void Operaciones3D::RotacionParalela(char eje, float theta,
+                                    float distA, float distB){
      switch(eje){
         case 'X'://rotacion paralela en "X"
-
+            translate(0,-distA,-distB);
+            rotateX(DegToRad(theta));
+            MultM(R,T,A);
+            translate(0,distA,distB);
+            MultM(T,A,A);
              break;
         case 'Y'://rotacion paralela en "Y"
+            translate(-distA,0,-distB);
+            rotateY(DegToRad(theta));
+            MultM(R,T,A);
+            translate(distA,0,distB);
+            MultM(T,A,A);
 
              break;
         case 'Z'://rotacion paralela en "Z"
-
-             break;
-     }
+            translate(0,-distA,-distB);
+            rotateZ(DegToRad(theta));
+            MultM(R,T,A);
+            translate(0,distA,distB);
+            MultM(T,A,A);
+            break;
+    }
 }
 
 void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
 {
 //...
 }
+

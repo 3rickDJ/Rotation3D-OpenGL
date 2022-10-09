@@ -1,3 +1,4 @@
+
 #include "3D_bib.h"
 #include <GL/glut.h>
 
@@ -170,19 +171,11 @@ void reshape(int width, int height)
 static void keys(unsigned char key, int x, int y)
 {
     switch(key){
-                case 'w':
+                case 'u':
                      Theta=1;
                      break;
-                case 's':
+                case 'd':
                      Theta=-1;
-                     break;
-                case 'r':
-                     glBegin(GL_LINES);
-                       glColor3f(0.9f,1.5f,0.5f);
-                       glVertex3f(200,0,200);
-                       glColor3f(0.6f,0.5f,0.6f);
-                       glVertex3f(-200,0,-200);
-                     glEnd();
                      break;
                 default:
                      Theta = 0;
@@ -200,8 +193,8 @@ void display()
     glColor3f(1.0f,1.0f,1.0f);
     //se rota la piramide Theta grados con respecto al eje de rotacion
     //a una distancia definida por el usuario
-    RotacionPiramide('X',Theta,0,0);
-
+    //RotacionPiramide('X',Theta,0,0);
+    RotacionPiramide('Z',Theta,0,0);
     ImprimePiramide();
     glutSwapBuffers();
 }
@@ -233,3 +226,4 @@ int main(int argc, char **argv)
     glutMainLoop();
     return 0;
 }
+
