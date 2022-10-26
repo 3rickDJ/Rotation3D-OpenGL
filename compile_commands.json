@@ -1,0 +1,41 @@
+[
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-g",
+            "-Wall",
+            "-o",
+            "obj/3D_bib.o",
+            "src/3D_bib.cpp"
+        ],
+        "directory": "/home/erick/Code/repos/Graficacion/Animation3D",
+        "file": "src/3D_bib.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-g",
+            "-Wall",
+            "-o",
+            "obj/Piramid.o",
+            "src/Piramid.cpp"
+        ],
+        "directory": "/home/erick/Code/repos/Graficacion/Animation3D",
+        "file": "src/Piramid.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-g",
+            "-Wall",
+            "-o",
+            "obj/main.o",
+            "src/main.cpp"
+        ],
+        "directory": "/home/erick/Code/repos/Graficacion/Animation3D",
+        "file": "src/main.cpp"
+    }
+]
