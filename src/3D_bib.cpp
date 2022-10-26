@@ -169,6 +169,7 @@ void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
     /* RxTheta[2][2] = cosine; */
 // 2.1 d= sqrt(b^2+c^2)
     float d = sqrt( (vUnit[1]*vUnit[1]) + (vUnit[2]*vUnit[2]) );
+    if(d!=0){
 // 2.2 Calcular R_x(alpha)
     float RxAlpha[4][4];
     float a ,b , c;
@@ -186,8 +187,8 @@ void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
     float RyBeta[4][4];
     LoadIdentity(RyBeta);
     RyBeta[0][0] = d;
-    RyBeta[0][2] = a;
-    RyBeta[2][0] = -a;
+    RyBeta[0][2] = -a;
+    RyBeta[2][0] = a;
     RyBeta[2][2] = d;
 
 // 4. Calcular matriz de rotacion con el angulo theta con respecto al eje "Z"
@@ -197,8 +198,8 @@ void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
     float RyBetaT[4][4];
     LoadIdentity(RyBetaT);
     RyBetaT[0][0] = d;
-    RyBetaT[0][2] = -a;
-    RyBetaT[2][0] = a;
+    RyBetaT[0][2] = a;
+    RyBetaT[2][0] = -a;
     RyBetaT[2][2] = d;
 // 6. Def matriz R_x^(-1) (alpha)
     float RxAlphaT[4][4];
@@ -219,4 +220,11 @@ void Operaciones3D::RotacionLibre(float theta, float p1[3], float p2[3])
     // regresar a lugar original
     translate(p1[0],p1[1],p1[2]);
     MultM(T,A,A);
+    }else{
+        rotateX(DegToRad(theta));
+        translate(-p1[0],-p1[1],-p1[2]);
+        MultM(R,T,A);
+        translate(p1[0],p1[1],p1[2]);
+        MultM(T,A,A);
+    }
 }

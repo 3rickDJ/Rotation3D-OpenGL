@@ -1,6 +1,7 @@
 
 #include "3D_bib.h"
 #include <GL/glut.h>
+#include <iostream>
 
 
 
@@ -35,8 +36,8 @@ Operaciones3D Op3D;
 
 float Theta=0;
 //Variables para la definicion de objetos
-float P1[3]={0.0,0.0,0.0};
-float P2[3]={5.0,5.0,-3.0};
+float P1[3]={0,0,0};
+float P2[3]={1,0,0};
 float points[5][3]={{0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1}};
 
 
@@ -147,10 +148,28 @@ void RotacionPiramide(float theta, float p1[3], float p2[3])
 {
      //se imprime el eje de rotacion
      glColor3f(0.5,0.4,0.4);
+     glLineWidth(11.0);
+     /* std::cout << p1[0] << p1[1] << p1[2] <<std::endl; */
+     /* std::cout << p2[0] << p2[1] << p2[2] <<std::endl; */
+     GLfloat a1,b1,c1,a2,b2,c2;
+     a1 = p1[0];
+     b1 = p1[1];
+     c1 = p1[2];
+     a2 = p2[0];
+     b2 = p2[1];
+     c2 = p2[2];
      glBegin(GL_LINES);
-       glVertex3f(-1,-1,0.6);
-       glVertex3f(p2[0],p2[1],p2[2]);
+        /* float P1[3]={0,0,3}; */
+        /* float P2[3]={3,0,0}; */
+       /* glVertex3f(0,0,3); */
+       /* glVertex3f(3,0,0); */
+       /* glVertex3f(p2[2],p2[1],p2[0]); */
+       glVertex3f(a1,b1,c1);
+       glVertex3f(a2,b2,c2);
+       /* glVertex3f(p1[0],p1[1],p1[2]); */
+       /* glVertex3f(p2[2],p2[1],p2[0]); */
      glEnd();
+     glLineWidth(3.0);
      glColor3f(0.4,0.4,0.4);
      //se prepara la matriz de operaciones A
      Op3D.RotacionLibre(theta, p1, p2);
