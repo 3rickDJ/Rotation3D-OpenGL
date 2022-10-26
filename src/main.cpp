@@ -1,5 +1,6 @@
 
 #include "3D_bib.h"
+#include "Piramid.h"
 #include <GL/glut.h>
 #include <iostream>
 
@@ -32,13 +33,14 @@ float Z_MIN=-100;
 float Z_MAX=20;
 
 //Se declara el objeto para utilizar las operaciones 3D
-Operaciones3D Op3D;
+Operaciones3D op3D;
+Piramid P1 = Piramid(&op3D);
+Piramid P2 = Piramid(&op3D);
+Piramid P3 = Piramid(&op3D);
 
-float Theta=0;
+/* float Theta=0; */
 //Variables para la definicion de objetos
-float P1[3]={0,0,0};
-float P2[3]={1,0,0};
-float points[5][3]={{0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1}};
+/* float points[5][3]={{0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1}}; */
 
 
 void drawAxis()
@@ -73,111 +75,8 @@ void drawAxis()
 /////////////////////////////////////////////////////////////////////////////
 //funciones de objetos
 /////////////////////////////////////////////////////////////////////////////
-float Norma(float p1[3], float p2[3])
-{
-      float n=0;
-      int i;
-      for(i=0;i<3;i++)
-        n += pow(p2[i]-p1[i],2);
-      return(sqrt(n));
-}
-
-void ImprimeMallaPiramide(int k)
-{
-     int i,j;
-     float U[3],d,norma;
-     for(i=0;i<3;i++)
-     {
-        norma = Norma(points[i],points[i+1]);
-        d = norma/(float)k;
-        U[0] = (points[i+1][0]-points[i][0])/norma;
-        U[1] = (points[i+1][1]-points[i][1])/norma;
-        U[2] = (points[i+1][2]-points[i][2])/norma;
-        for(j = 1; j < k; j++)
-        {
-           glBegin(GL_LINES);
-             glVertex3f(points[4][0],points[4][1],points[4][2]);
-             glVertex3f(points[i][0]+U[0]*d*j,points[i][1]+U[1]*d*j,points[i][2]+U[2]*d*j);
-           glEnd();
-        }
-     }
-     norma = Norma(points[i],points[0]);
-     d = norma /(float)k;
-     U[0] = (points[0][0]-points[i][0])/norma;
-     U[1] = (points[0][1]-points[i][1])/norma;
-     U[2] = (points[0][2]-points[i][2])/norma;
-     for(j = 1; j < k; j++)
-        {
-           glBegin(GL_LINES);
-             glVertex3f(points[4][0],points[4][1],points[4][2]);
-             glVertex3f(points[i][0]+U[0]*d*j,points[i][1]+U[1]*d*j,points[i][2]+U[2]*d*j);
-           glEnd();
-        }
-
-}
-
-void ImprimePiramide()
-{   int i;
-    glBegin(GL_LINE_LOOP);
-      for(i=0;i<4;i++)
-        glVertex3f(points[i][0],points[i][1],points[i][2]);
-    glEnd();
-    glBegin(GL_LINES);
-      for(i=0;i<4;i++){
-        glVertex3f(points[4][0],points[4][1],points[4][2]);
-        glVertex3f(points[i][0],points[i][1],points[i][2]);
-        }
-    glEnd();
-    ImprimeMallaPiramide(20);
- }
 
 
-//Rotacion paralela
-//rota a la piramide theta grados, donde el eje de rotacion se encuentra
-//a una distancia distA-distB del eje seleccionado (ejeXYZ)
-void RotacionPiramide(char ejeXYZ, float theta, float distA, float distB)
-{
-     //se prepara la matriz de operaciones A: T^(-1)R(T)
-     Op3D.RotacionParalela(ejeXYZ,theta,distA,distB);
-     //se aplica A a cada punto de la piramide
-     Op3D.MatObject(Op3D.A,5,points);
-}
-
-//Rotacion libre
-void RotacionPiramide(float theta, float p1[3], float p2[3])
-{
-     //se imprime el eje de rotacion
-     glColor3f(0.5,0.4,0.4);
-     glLineWidth(11.0);
-     /* std::cout << p1[0] << p1[1] << p1[2] <<std::endl; */
-     /* std::cout << p2[0] << p2[1] << p2[2] <<std::endl; */
-     GLfloat a1,b1,c1,a2,b2,c2;
-     a1 = p1[0];
-     b1 = p1[1];
-     c1 = p1[2];
-     a2 = p2[0];
-     b2 = p2[1];
-     c2 = p2[2];
-     glBegin(GL_LINES);
-        /* float P1[3]={0,0,3}; */
-        /* float P2[3]={3,0,0}; */
-       /* glVertex3f(0,0,3); */
-       /* glVertex3f(3,0,0); */
-       /* glVertex3f(p2[2],p2[1],p2[0]); */
-       glVertex3f(a1,b1,c1);
-       glVertex3f(a2,b2,c2);
-       /* glVertex3f(p1[0],p1[1],p1[2]); */
-       /* glVertex3f(p2[2],p2[1],p2[0]); */
-     glEnd();
-     glLineWidth(3.0);
-     glColor3f(0.4,0.4,0.4);
-     //se prepara la matriz de operaciones A
-     Op3D.RotacionLibre(theta, p1, p2);
-     //Se aplica A a cada punto de la piramide
-     Op3D.MatObject(Op3D.A,5,points);
-}
-
-//-------------------------------------------------------------------------
 //funciones callbacks
 void idle(void)
 {
@@ -194,13 +93,14 @@ static void keys(unsigned char key, int x, int y)
 {
     switch(key){
                 case 'u':
-                     Theta=6;
+                 P1.Deg+=10;
                      break;
                 case 'd':
-                     Theta=-6;
+                    P1.Deg-=10;
+                     /* Theta=-6; */
                      break;
                 default:
-                     Theta = 0;
+                     /* Theta = 0; */
                      break;
     }
     glutPostRedisplay();
@@ -216,8 +116,15 @@ void display()
     //a una distancia definida por el usuario
     //RotacionPiramide('X',Theta,0,0);
     //RotacionPiramide('Z',Theta,0,0);
-    RotacionPiramide(Theta, P1, P2);
-    ImprimePiramide();
+    /* RotacionPiramide(Theta, P1, P2); */
+    /* ImprimePiramide(); */
+    op3D.push();
+    op3D.rotateY(op3D.DegToRad(P1.Deg));
+    P1.ImprimePiramide();
+    op3D.pop();
+
+
+
     glutSwapBuffers();
 }
 
@@ -230,7 +137,12 @@ void init()
     glLoadIdentity();
     gluLookAt(EYE_X,EYE_Y,EYE_Z,CENTER_X,CENTER_Y,CENTER_Z,UP_X,UP_Y,UP_Z);
     glClearColor(0,0,0,0);
-    Theta=1;
+    op3D.LoadIdentity(op3D.A);
+    op3D.push();
+    P1.setDeltaDeg(1);
+    P1.setPoints({0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1});
+
+    /* Theta=1; */
 }
 
 int main(int argc, char **argv)
