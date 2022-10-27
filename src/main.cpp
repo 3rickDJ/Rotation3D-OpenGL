@@ -100,10 +100,10 @@ static void keys(unsigned char key, int x, int y)
                      /* Theta=-6; */
                      break;
                 case 'h':
-                    P2.Deg+=1;
+                    P2.Deg+=0.1;
                     break;
                 case 'H':
-                    P2.Deg-=1;
+                    P2.Deg-=0.1;
                     break;
                 default:
                      /* Theta = 0; */
