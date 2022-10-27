@@ -14,6 +14,8 @@ class Piramid {
     // degree base
 
   public:
+    //0:= niguna animacion, 1:=rotacion, 2:= traslacion
+    int animation;
     float Deg;
     // delta degree ratio of change
     float deltaDeg;

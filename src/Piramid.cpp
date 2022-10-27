@@ -62,6 +62,10 @@ void Piramid::ImprimePiramide() {
     /* Deg = Deg + deltaDeg; */
     /* op3d->MultM(op3d->T,op3d->A,op3d->A); */
     /* op3d->MultM(op3d->R,op3d->A,op3d->A); */
+    op3d->MultM(op3d->R, op3d->A,op3d->A);
+    op3d->LoadIdentity(op3d->R);
+    op3d->MultM(op3d->T, op3d->A,op3d->A);
+    op3d->LoadIdentity(op3d->T);
     op3d->MatObject(op3d->A, 5, pointsOri, points);
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < 4; i++) {
@@ -75,7 +79,7 @@ void Piramid::ImprimePiramide() {
     }
     glEnd();
     ImprimeMallaPiramide(20);
-    updateFrame();
+    //updateFrame();
 }
 // privat{}
 void Piramid::ImprimeMallaPiramide(int k) {
@@ -103,7 +107,7 @@ void Piramid::ImprimeMallaPiramide(int k) {
     U.z = (points[0].z - points[i].z) / norma;
     for (j = 1; j < k; j++) {
         glBegin(GL_LINES);
-        glVertex3f(points[4].z, points[4].y, points[4].z);
+        glVertex3f(points[4].x, points[4].y, points[4].z);
         glVertex3f(points[i].x + U.x * d * j, points[i].y + U.y * d * j,
                    points[i].z + U.z * d * j);
         glEnd();

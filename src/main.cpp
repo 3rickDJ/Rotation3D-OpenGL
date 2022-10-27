@@ -93,12 +93,18 @@ static void keys(unsigned char key, int x, int y)
 {
     switch(key){
                 case 'u':
-                 P1.Deg+=10;
+                     P1.Deg+=5;
                      break;
-                case 'd':
-                    P1.Deg-=10;
+                case 'U':
+                    P1.Deg+=-5;
                      /* Theta=-6; */
                      break;
+                case 'h':
+                    P2.Deg+=1;
+                    break;
+                case 'H':
+                    P2.Deg-=1;
+                    break;
                 default:
                      /* Theta = 0; */
                      break;
@@ -121,6 +127,15 @@ void display()
     op3D.push();
     op3D.rotateY(op3D.DegToRad(P1.Deg));
     P1.ImprimePiramide();
+    op3D.push();
+    op3D.translate(P2.vT);
+    op3D.rotateY(P2.Deg);
+    P2.ImprimePiramide();
+    op3D.push();
+    op3D.translate(P3.vT);
+    P3.ImprimePiramide();
+    op3D.pop();
+    op3D.pop();
     op3D.pop();
 
 
@@ -139,8 +154,13 @@ void init()
     glClearColor(0,0,0,0);
     op3D.LoadIdentity(op3D.A);
     op3D.push();
-    P1.setDeltaDeg(1);
+    P1.setDeltaDeg(0);
     P1.setPoints({0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1});
+    P2.setVectorTranslation({2,2,0});
+    P2.setDeltaDeg(0);
+    P2.setPoints({0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1});
+    P3.setVectorTranslation({5,-5,5});
+    P3.setPoints({0,0,2},{2,0,2},{2,0,0},{0,0,0},{1,1.5,1});
 
     /* Theta=1; */
 }
